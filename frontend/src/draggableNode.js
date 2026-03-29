@@ -1,5 +1,3 @@
-// draggableNode.js
-
 export const DraggableNode = ({ type, label }) => {
     const onDragStart = (event, nodeType) => {
       const appData = { nodeType }
@@ -15,18 +13,24 @@ export const DraggableNode = ({ type, label }) => {
         onDragEnd={(event) => (event.target.style.cursor = 'grab')}
         style={{ 
           cursor: 'grab', 
-          minWidth: '80px', 
-          height: '60px',
+          minWidth: '100px', 
+          height: '40px',
           display: 'flex', 
           alignItems: 'center', 
           borderRadius: '8px',
-          backgroundColor: '#1C2536',
+          background: 'var(--node-bg)',
+          border: '1px solid var(--node-border)',
+          color: 'var(--text-primary)',
           justifyContent: 'center', 
-          flexDirection: 'column'
+          flexDirection: 'column',
+          transition: 'all 0.2s ease',
+          fontSize: '0.85rem',
+          fontWeight: '500',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.2)'
         }} 
         draggable
       >
-          <span style={{ color: '#fff' }}>{label}</span>
+          <span style={{ color: 'inherit' }}>{label}</span>
       </div>
     );
   };

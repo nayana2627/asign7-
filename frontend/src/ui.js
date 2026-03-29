@@ -10,6 +10,11 @@ import { InputNode } from './nodes/inputNode';
 import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
 import { TextNode } from './nodes/textNode';
+import { NoteNode } from './nodes/noteNode';
+import { FilterNode } from './nodes/filterNode';
+import { MathNode } from './nodes/mathNode';
+import { PromptNode } from './nodes/promptNode';
+import { FileNode } from './nodes/fileNode';
 
 import 'reactflow/dist/style.css';
 
@@ -20,6 +25,11 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  note: NoteNode,
+  filter: FilterNode,
+  math: MathNode,
+  prompt: PromptNode,
+  file: FileNode,
 };
 
 const selector = (state) => ({
@@ -35,6 +45,7 @@ const selector = (state) => ({
 export const PipelineUI = () => {
     const reactFlowWrapper = useRef(null);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
+    const [isLocked, setIsLocked] = useState(false);
     const {
       nodes,
       edges,
@@ -89,8 +100,7 @@ export const PipelineUI = () => {
     }, []);
 
     return (
-        <>
-        <div ref={reactFlowWrapper} style={{width: '100wv', height: '70vh'}}>
+        <div ref={reactFlowWrapper} className={isLocked ? 'locked-canvas' : ''} style={{ width: '100%', height: '100%' }}>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -104,12 +114,20 @@ export const PipelineUI = () => {
                 proOptions={proOptions}
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
+                nodesDraggable={!isLocked}
+                nodesConnectable={!isLocked}
+                elementsSelectable={!isLocked}
+                panOnDrag={!isLocked}
+                zoomOnScroll={true}
+                zoomOnPinch={true}
             >
                 <Background color="#aaa" gap={gridSize} />
-                <Controls />
+                <Controls onInteractiveChange={(interactive) => {
+                    console.log('Interactive state change:', interactive);
+                    setIsLocked(!interactive);
+                }} />
                 <MiniMap />
             </ReactFlow>
         </div>
-        </>
     )
 }

@@ -1,13 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+
+:root {
+  --primary-bg: #e8efff;
+  --node-bg: rgba(30, 41, 59, 0.7);
+  --node-border: rgba(255, 255, 255, 0.1);
+  --node-accent: #3b82f6;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --handle-color: #6366f1;
+  --grid-color: rgba(255, 255, 255, 0.05);
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  padding: 0;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--primary-bg);
+  background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+  color: var(--text-primary);
+  min-height: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Glassmorphism for Nodes */
+.base-node {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 200px;
+  overflow: visible;
+}
+
+.base-node:hover {
+  transform: translateY(-4px);
+}
+
+/* Node Specific Glows & Hovers */
+.input-node { border-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); }
+.input-node:hover { border-color: #60a5fa; box-shadow: 0 0 25px rgba(59, 130, 246, 0.6); }
+.input-node .node-header { border-bottom-color: #3b82f6; }
+
+.llm-node { border-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.2); }
+.llm-node:hover { border-color: #c084fc; box-shadow: 0 0 25px rgba(168, 85, 247, 0.6); }
+.llm-node .node-header { border-bottom-color: #a855f7; }
+
+.output-node { border-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+.output-node:hover { border-color: #34d399; box-shadow: 0 0 25px rgba(16, 185, 129, 0.6); }
+.output-node .node-header { border-bottom-color: #10b981; }
+
+.text-node { border-color: #f97316; box-shadow: 0 0 10px rgba(249, 115, 22, 0.2); }
+.text-node:hover { border-color: #fb923c; box-shadow: 0 0 25px rgba(249, 115, 22, 0.6); }
+.text-node .node-header { border-bottom-color: #f97316; }
+
+.filter-node { border-color: #ec4899; box-shadow: 0 0 10px rgba(236, 72, 153, 0.2); }
+.filter-node:hover { border-color: #f472b6; box-shadow: 0 0 25px rgba(236, 72, 153, 0.6); }
+.filter-node .node-header { border-bottom-color: #ec4899; }
+
+.math-node { border-color: #06b6d4; box-shadow: 0 0 10px rgba(6, 182, 212, 0.2); }
+.math-node:hover { border-color: #22d3ee; box-shadow: 0 0 25px rgba(6, 182, 212, 0.6); }
+.math-node .node-header { border-bottom-color: #06b6d4; }
+
+.note-node { border-color: #eab308; box-shadow: 0 0 10px rgba(234, 179, 8, 0.2); }
+.note-node:hover { border-color: #fde047; box-shadow: 0 0 25px rgba(234, 179, 8, 0.6); }
+.note-node .node-header { border-bottom-color: #eab308; }
+
+.prompt-node { border-color: #f43f5e; box-shadow: 0 0 10px rgba(244, 63, 94, 0.2); }
+.prompt-node:hover { border-color: #fb7185; box-shadow: 0 0 25px rgba(244, 63, 94, 0.6); }
+.prompt-node .node-header { border-bottom-color: #f43f5e; }
+
+.file-node { border-color: #f1f5f9; box-shadow: 0 0 10px rgba(241, 245, 249, 0.2); }
+.file-node:hover { border-color: #ffffff; box-shadow: 0 0 25px rgba(255, 255, 255, 0.6); }
+.file-node .node-header { border-bottom-color: #f1f5f9; }
+
+.node-header {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--node-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  border-radius: 12px 12px 0 0;
+}
+
+.node-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.node-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+  letter-spacing: 0.05em;
+}
+
+.node-input, .node-select {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--node-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  outline: none;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.node-input:focus, .node-select:focus {
+  border-color: var(--node-accent);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+/* Custom ReactFlow Overrides */
+.react-flow__handle {
+  width: 12px !important;
+  height: 12px !important;
+  background-color: var(--handle-color) !important;
+  border: 2px solid #0f172a !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px var(--handle-color);
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.3);
+  box-shadow: 0 0 18px var(--handle-color);
+}
+
+.react-flow__edge-path {
+  stroke: var(--handle-color) !important;
+  stroke-width: 2.5 !important;
+}
+
+/* Canvas Locking Utilities */
+.locked-canvas .react-flow__node {
+  cursor: default !important;
+  pointer-events: none !important; /* Forces total immobilization */
+}
+
+.locked-canvas .react-flow__handle {
+  pointer-events: none !important;
+}
+
+.locked-canvas .react-flow__nodesselection-rect, 
+.locked-canvas .react-flow__selection {
+  display: none !important;
+}
+
+.react-flow__controls {
+  background: var(--node-bg) !important;
+  border: 1px solid var(--node-border) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.react-flow__controls-button {
+  border-bottom: 1px solid var(--node-border) !important;
+  background: transparent !important;
+  fill: var(--text-primary) !important;
+}
+
+.react-flow__minimap {
+  background: var(--node-bg) !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--node-border) !important;
 }
